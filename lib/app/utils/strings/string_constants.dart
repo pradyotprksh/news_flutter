@@ -7,11 +7,6 @@ abstract class StringConstants {
   static String noInternet = 'noInternet'.tr;
   static String okay = 'okay'.tr;
   static String somethingWentWrong = 'somethingWentWrong'.tr;
-  static String home = 'home'.tr;
-  static String order = 'order'.tr;
-  static String cart = 'cart'.tr;
-  static String profile = 'profile'.tr;
-  static String addressExample = 'addressExample'.tr;
-  static String category = 'category'.tr;
-  static String prodcuts = 'prodcuts'.tr;
+  static String by = 'by'.tr;
+  static String urlInvalid = 'urlInvalid'.tr;
 }

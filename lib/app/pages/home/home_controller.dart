@@ -1,38 +1,58 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:news_flutter/app/app.dart';
 import 'package:news_flutter/domain/domain.dart';
 
-/// The splash controller which will be used to control the [HomeView].
+/// The home controller which will be used to control the [HomeView].
 class HomeController extends GetxController {
   HomeController(this._homePresenter);
 
   final HomePresenter _homePresenter;
+  NewsFeed? newsFeed;
+  PageStatus pageStatus = PageStatus.idle;
+  StreamSubscription? _subscription;
 
   @override
   void onInit() {
     _callInitialApis();
+    _subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        pageStatus = PageStatus.offline;
+      } else {
+        pageStatus = PageStatus.online;
+      }
+      _callInitialApis();
+    });
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    _subscription?.cancel();
+    super.onClose();
   }
 
   /// Call initial apis
   void _callInitialApis() async {
-    Utility.showLoadingDialog();
-    await _getCategories();
+    pageStatus = PageStatus.loading;
     update();
-    Utility.closeDialog();
+    await _getNewsFeed();
+    update();
   }
 
-  Future<void> _getCategories() async {
-    try {} on NetworkException catch (exception) {
-      Utility.closeDialog();
-      Utility.showMessage(
-        exception.toString(),
-        MessageType.error,
-        null,
-        StringConstants.okay,
-      );
+  /// Get the list of news from
+  Future<void> _getNewsFeed() async {
+    try {
+      newsFeed = await _homePresenter.getNewsFeed();
+      pageStatus = PageStatus.success;
     } catch (exception) {
-      Utility.closeDialog();
+      newsFeed = await _homePresenter.getLocalNewsFeed();
+      pageStatus = PageStatus.offline;
       Utility.showMessage(
         exception.toString(),
         MessageType.error,
@@ -40,5 +60,10 @@ class HomeController extends GetxController {
         StringConstants.okay,
       );
     }
+  }
+
+  /// Save a news in local storage
+  void markNewsOffline(Article article) {
+    _homePresenter.saveNews(json.encode(article.toMap()));
   }
 }

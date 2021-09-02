@@ -8,13 +8,9 @@ import 'package:news_flutter/domain/domain.dart';
 
 /// The entry point of the application
 void main() async {
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-    await initServices();
-    runApp(MyApp());
-  } catch (error) {
-    Utility.printELog(error.toString());
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  await initServices();
+  runApp(const MyApp());
 }
 
 /// Initialize the services before the app starts.
@@ -27,22 +23,20 @@ Future<void> initServices() async {
             DeviceRepository(),
           ),
           Get.put(
-            DataRepository(
-              Get.put(
-                ConnectHelper(),
-              ),
-            ),
+            DataRepository(),
           ),
         ),
       ),
     ),
     permanent: true,
   );
-  await Get.putAsync<void>(() => DeviceRepository().init());
+  await DeviceRepository().init();
 }
 
 /// The my app class which will initialize the basic application structure.
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -56,9 +50,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: StringConstants.appName,
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
       theme: Styles.lightTheme,
-      darkTheme: Styles.lightTheme,
+      darkTheme: Styles.darkTheme,
       fallbackLocale: const Locale(
         DataConstants.defaultLang,
       ),

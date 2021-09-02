@@ -4,4 +4,5 @@ import 'package:news_flutter/device/device.dart';
 /// be used by [DeviceRepository] to get/save the data locally.
 abstract class DeviceConstants {
   static const String localLang = 'localLang';
+  static const String news = 'news';
 }

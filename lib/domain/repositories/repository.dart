@@ -13,5 +13,29 @@ class Repository extends DomainRepository {
   final DataRepository _dataRepository;
 
   @override
-  String getStringValue(String key) => _deviceRepository.getStringValue(key);
+  String getStringValue(String key) => _dataRepository.getStringValue(key);
+
+  @override
+  Future<NewsFeed> getNewsFeed() async => _deviceRepository.getNewsFeed();
+
+  @override
+  List getListStringValue(String key) {
+    try {
+      return _dataRepository.getListStringValue(key);
+    } catch (_) {
+      return _deviceRepository.getListStringValue(key);
+    }
+  }
+
+  @override
+  void saveNews(dynamic details) {
+    try {
+      _dataRepository.saveNews(details);
+    } catch (_) {
+      _deviceRepository.saveNews(details);
+    }
+  }
+
+  @override
+  Future<NewsFeed> getLocalNewsFeed() async => _deviceRepository.getNewsFeed();
 }

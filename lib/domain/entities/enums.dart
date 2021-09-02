@@ -6,3 +6,13 @@ enum MessageType {
   success,
   information,
 }
+
+/// Page status
+enum PageStatus {
+  loading,
+  idle,
+  error,
+  success,
+  offline,
+  online,
+}

@@ -23,6 +23,8 @@ class TranslationsFile extends Translations {
           'addressExample': 'London se11 4hj, uk',
           'category': 'Category',
           'prodcuts': 'Prodcuts',
+          'by': 'by',
+          'urlInvalid': 'Url is invalid',
         },
       };
 }

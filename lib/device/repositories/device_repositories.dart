@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:news_flutter/app/app.dart';
 import 'package:news_flutter/data/data.dart';
@@ -14,16 +11,7 @@ class DeviceRepository extends DomainRepository {
   Future<void> init() async {
     var directory = await path_provider.getApplicationDocumentsDirectory();
     Hive.init(directory.path);
-    const secureStorage = FlutterSecureStorage();
-    var containsEncryptionKey = await secureStorage.containsKey(key: 'key');
-    if (!containsEncryptionKey) {
-      var key = Hive.generateSecureKey();
-      await secureStorage.write(key: 'key', value: base64UrlEncode(key));
-    }
-    var encryptionKey =
-        base64Url.decode(await secureStorage.read(key: 'key') ?? '');
-    await Hive.openBox<dynamic>(StringConstants.appName,
-        encryptionCipher: HiveAesCipher(encryptionKey));
+    await Hive.openBox<dynamic>(StringConstants.appName);
   }
 
   /// Returns the box in which the data is stored.
@@ -38,4 +26,29 @@ class DeviceRepository extends DomainRepository {
     }
     return value ?? '';
   }
+
+  @override
+  Future<NewsFeed> getNewsFeed() async {
+    var news = getListStringValue(DeviceConstants.news);
+    var output = '{"status": "ok", "articles": $news}';
+    return NewsFeed.fromJson(output);
+  }
+
+  @override
+  void saveNews(dynamic details) {
+    var news = getListStringValue(DeviceConstants.news);
+    var newNews = <dynamic>[...news, details];
+    _getBox().put(DeviceConstants.news, newNews);
+  }
+
+  @override
+  List<dynamic> getListStringValue(String key) {
+    var box = _getBox();
+    var value = box.get(key) as List<dynamic>?;
+    value ??= <Map<String, String>>[];
+    return value;
+  }
+
+  @override
+  Future<NewsFeed> getLocalNewsFeed() => getNewsFeed();
 }

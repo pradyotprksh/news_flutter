@@ -8,7 +8,7 @@ class NetworkException implements Exception {
   });
 
   String message;
-  int errorCode;
+  int? errorCode;
 
   @override
   String toString() => '$errorCode : $message';

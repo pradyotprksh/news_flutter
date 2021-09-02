@@ -9,4 +9,9 @@ class LocalUsecases {
 
   /// Get the string value for the [key].
   String getStringValue(String key) => _repository.getStringValue(key);
+
+  /// Save news to local storage
+  void saveNews(String details) {
+    _repository.saveNews(details);
+  }
 }

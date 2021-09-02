@@ -47,10 +47,38 @@ abstract class Styles {
     color: Colors.white,
   );
 
+  static TextStyle themeBold20 = GoogleFonts.asap(
+    fontSize: Dimens.twenty,
+    color: ColorsValue.themeOppositeColor(),
+    fontWeight: FontWeight.bold,
+  );
+
+  static TextStyle theme15 = GoogleFonts.asap(
+    fontSize: Dimens.ten + Dimens.five,
+    color: ColorsValue.themeOppositeColor(),
+  );
+
+  static TextStyle theme12 = GoogleFonts.asap(
+    fontSize: Dimens.ten + Dimens.two,
+    color: ColorsValue.themeOppositeColor(),
+  );
+
   static TextStyle bold30 = GoogleFonts.asap(
-    fontSize: Dimens.ten + Dimens.twenty,
+    fontSize: Dimens.thirty,
     fontWeight: FontWeight.bold,
     color: ColorsValue.themeColor(),
+  );
+
+  static TextStyle themeBold30 = GoogleFonts.asap(
+    fontSize: Dimens.ten + Dimens.twenty,
+    fontWeight: FontWeight.bold,
+    color: ColorsValue.themeOppositeColor(),
+  );
+
+  static TextStyle whiteBold30 = GoogleFonts.asap(
+    fontSize: Dimens.ten + Dimens.twenty,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
   );
 
   static ElevatedButtonThemeData elevatedButtonStyle = ElevatedButtonThemeData(

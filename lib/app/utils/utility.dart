@@ -5,6 +5,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:logger/logger.dart';
 import 'package:news_flutter/app/app.dart';
 import 'package:news_flutter/domain/domain.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// A chunk of methods which can be used to
 /// the common operations performed everywhere
@@ -101,19 +102,6 @@ abstract class Utility {
     );
   }
 
-  /// Show a loading dialog
-  static void showLoadingDialog() {
-    closeDialog();
-    Future.delayed(
-      const Duration(seconds: 0),
-      () {
-        Get.dialog<void>(
-          CenterCircularProgressbar(),
-        );
-      },
-    );
-  }
-
   /// Close any open dialog.
   static void closeDialog() {
     if (Get.isDialogOpen ?? false) Get.back<void>();
@@ -127,5 +115,17 @@ abstract class Utility {
   /// Close any open snackbar
   static void closeSnackbar() {
     if (Get.isSnackbarOpen ?? false) Get.back<void>();
+  }
+
+  /// Open url
+  static void openUrl(String url) async {
+    await canLaunch(url)
+        ? await launch(url)
+        : showMessage(
+            StringConstants.urlInvalid,
+            MessageType.error,
+            null,
+            StringConstants.okay,
+          );
   }
 }

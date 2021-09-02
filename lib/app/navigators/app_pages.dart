@@ -20,14 +20,14 @@ class AppPages {
     GetPage<SplashView>(
       name: _Paths.splashScreen,
       transitionDuration: transitionDuration,
-      page: () => SplashView(),
+      page: () => const SplashView(),
       binding: SplashBinding(),
       transition: Transition.native,
     ),
     GetPage<HomeView>(
       name: _Paths.homeScreen,
       transitionDuration: transitionDuration,
-      page: () => HomeView(),
+      page: () => const HomeView(),
       binding: HomeBinding(),
       transition: Transition.native,
     ),

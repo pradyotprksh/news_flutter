@@ -11,13 +11,13 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GetBuilder<SplashController>(
-        init: Get.find()?..goToHome(),
+        init: Get.put(SplashController())?..goToHome(),
         builder: (_controller) => Scaffold(
           backgroundColor: Get.theme.primaryColor,
           body: Center(
             child: Text(
               StringConstants.appName,
-              style: Styles.bold30,
+              style: Styles.whiteBold30,
             ),
           ),
         ),
