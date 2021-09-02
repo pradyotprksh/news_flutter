@@ -25,7 +25,9 @@ class HomeView extends StatelessWidget {
           ),
           floatingActionButton: (_controller.pageStatus == PageStatus.offline)
               ? FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _controller.callInitialApis();
+                  },
                   child: const Icon(
                     Icons.wifi_off_rounded,
                   ),
@@ -34,6 +36,14 @@ class HomeView extends StatelessWidget {
           backgroundColor: Get.theme.backgroundColor,
           body: Stack(
             children: [
+              // If data available then show the list
+              if (_controller.newsFeed != null)
+                if (_controller.newsFeed?.articles != null)
+                  Expanded(
+                    child: NewsFeedWidget(
+                      articles: _controller.newsFeed!.articles,
+                    ),
+                  ),
               // Show error when no data is available
               if ((_controller.newsFeed?.articles.isEmpty ?? true) &&
                   _controller.pageStatus != PageStatus.idle &&
@@ -49,18 +59,6 @@ class HomeView extends StatelessWidget {
                   child: Lottie.asset(
                     AssetConstants.loading,
                   ),
-                ),
-              // If data available then show the list
-              if (_controller.newsFeed != null)
-                Column(
-                  children: [
-                    if (_controller.newsFeed?.articles != null)
-                      Expanded(
-                        child: NewsFeedWidget(
-                          articles: _controller.newsFeed!.articles,
-                        ),
-                      ),
-                  ],
                 ),
             ],
           ),

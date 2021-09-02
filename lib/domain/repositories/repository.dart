@@ -13,10 +13,22 @@ class Repository extends DomainRepository {
   final DataRepository _dataRepository;
 
   @override
-  String getStringValue(String key) => _dataRepository.getStringValue(key);
+  String getStringValue(String key) {
+    try {
+      return _dataRepository.getStringValue(key);
+    } catch (_) {
+      return _deviceRepository.getStringValue(key);
+    }
+  }
 
   @override
-  Future<NewsFeed> getNewsFeed() async => _deviceRepository.getNewsFeed();
+  Future<NewsFeed> getNewsFeed() async {
+    try {
+      return _dataRepository.getNewsFeed();
+    } catch (_) {
+      return _deviceRepository.getNewsFeed();
+    }
+  }
 
   @override
   List getListStringValue(String key) {

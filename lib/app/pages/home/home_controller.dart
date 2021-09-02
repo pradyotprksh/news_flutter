@@ -17,7 +17,7 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    _callInitialApis();
+    callInitialApis();
     _subscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
@@ -26,7 +26,7 @@ class HomeController extends GetxController {
       } else {
         pageStatus = PageStatus.online;
       }
-      _callInitialApis();
+      callInitialApis();
     });
     super.onInit();
   }
@@ -38,7 +38,7 @@ class HomeController extends GetxController {
   }
 
   /// Call initial apis
-  void _callInitialApis() async {
+  void callInitialApis() async {
     pageStatus = PageStatus.loading;
     update();
     await _getNewsFeed();
